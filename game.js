@@ -14,7 +14,7 @@ class Game {
 		this.y = 0;
 		this.terrainTexture = Texture.load('./res/terrain.png');
 		this.terrains = [];
-		for (let i = 0; i < 400; i++) this.terrains.push(new Terrain());
+		for (let i = 0; i < 500; i++) this.terrains.push(new Terrain());
 		window.addEventListener('keydown', this.keysDown);
 		window.addEventListener('keyup', this.keysUp);
 		canvas.addEventListener('mousemove', this.mouseMove);
@@ -65,6 +65,7 @@ class Game {
 		// console.log(this.terrainTexture.img)
 		const cameraMatrix = glMatrix.mat4.create();
 		glMatrix.mat4.translate(cameraMatrix, cameraMatrix, this.gamePos);
+		glMatrix.mat4.translate(cameraMatrix, cameraMatrix, [-62, 0, -30]);
 
 		const screenMatrix = glMatrix.mat4.create();
 		glMatrix.mat4.scale(screenMatrix, screenMatrix, [1 / canvas.width, 1 / canvas.width, 1 / 480])
@@ -73,7 +74,7 @@ class Game {
 		this.quad.setTexture(this.terrainTexture);
 		this.quad.setCamera(viewMatrix, screenMatrix);
 		for (let ter of this.terrains) {
-			this.quad.render(glMatrix.vec3.transformMat4(glMatrix.vec3.create(), [ter.terrPos[0], ter.terrPos[1], Math.PI * -20], cameraMatrix), 2, 2, 0, 0, ter.color);
+			this.quad.render(glMatrix.vec3.transformMat4(glMatrix.vec3.create(), ter.terrPos, cameraMatrix), 2, 2, 0, 0, ter.color);
 		}
 		// this.quad.render(glMatrix.vec3.transformMat4(glMatrix.vec3.create(), this.gamePos, cameraMatrix), 256, 256, 0, 0, [1.0, 1.0, 1.0, 1.0]);
 		// this.quad.render(glMatrix.vec3.transformMat4(glMatrix.vec3.create(), [-Math.sin(time / 2) / 200 * 1, Math.cos(time) / 100, Math.PI * -20], cameraMatrix), 40, 40, 0, 0, [1.0, 1.0, 1.0, 1.0]);
